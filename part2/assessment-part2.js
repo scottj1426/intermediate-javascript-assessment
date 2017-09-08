@@ -39,11 +39,17 @@ var thirdUser = 'don\'t touch this string, either!';
 
 function noWeakLink() {
 
-  return $http({
-    method: 'GET',
-    url: '/api/users'
-  })
-  // CODE HERE...
+    return $http({
+        method: 'GET',
+        url: '/api/users'
+    }).then(function(response) {
+        firstUser = response.data[0];
+        console.log(firstUser);
+        return response
+    }).then(function(response) {
+        thirdUser = response.data[2];
+        return response.data[9];
+    })
 
 }
 
@@ -74,7 +80,7 @@ function large() {
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
 // CODE HERE...
-
+var boundToElephant = large.bind(elephant);
 
 
 // *************
@@ -88,6 +94,10 @@ function large() {
 // and return the bound function.
 
 // CODE HERE...
+function deathStar(capacity,crew){
+  var fn = capacity.bind(crew)
+  return fn;
+}
 
 
 
@@ -103,6 +113,12 @@ function large() {
 // The closure function will return the combined value of assets and liabilities.
 
 // CODE HERE...
+function accountingOffice(assets){
+  return function(liabilities){
+    return assets + liabilities;
+
+  }
+}
 
 
 
@@ -128,6 +144,18 @@ function large() {
 // };
 
 // CODE HERE...
+
+function forgetter(name){
+  var arr = [];
+  return function rememberall(item){
+    arr.push(item)
+    return {
+      name: name,
+      remember: arr
+    }
+  }
+}
+
 
 
 
@@ -156,3 +184,56 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+function frodo(startingHungerValue,startingDangerValue){
+  var hungerCount = startingHungerValue;
+  var dangerCount = startingDangerValue;
+
+  return {
+    dinnerOverFire: function(){
+      hungerCount = hungerCount - 25;
+      dangerCount = dangerCount + 40;
+
+      if(dangerCount > 100){
+        dangerCount = 100;
+      }
+      if(dangerCount < 0){
+        dangerCount = 0;
+      }
+      if(hungerCount > 100){
+        hungerCount = 100;
+      }
+      if(hungerCount < 0){
+        hungerCount = 0;
+      }
+      return {
+        hunger: hungerCount,
+        danger: dangerCount
+      }
+    },
+    hidingInBush: function(){
+      hungerCount = hungerCount + 35;
+      dangerCount = dangerCount - 40;
+
+      if(dangerCount > 100){
+        dangerCount = 100;
+      }
+      if(dangerCount < 0)
+      {dangerCount = 0
+      }
+      if(hungerCount > 100){
+        hungerCount = 100;
+      }
+      if(hungerCount < 0){
+        hungerCount = 0;
+      }
+      return {
+        hunger: hungerCount,
+        danger: dangerCount
+      }
+      return {
+        hunger: hungerCount,
+        danger: dangerCount
+      }
+    }
+  }
+}
